@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>İSG Sınav Hazırlık — Ders 1 & 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1ea;--card:#fffdf8;--ink:#1d1b16;--mute:#6b665b;--line:#e2dccf;--acc:#e8590c;--ok:#2b8a3e;--okbg:#e6f4ea;--bad:#c92a2a;--badbg:#fdecec;--chip:#efe9dc}
+@media (prefers-color-scheme:dark){:root{--bg:#16150f;--card:#1f1d17;--ink:#f1ede3;--mute:#a39d8f;--line:#35322a;--acc:#ff7a2e;--ok:#51cf66;--okbg:#1b2e1f;--bad:#ff6b6b;--badbg:#3a1d1d;--chip:#2a2820}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 60px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+h1{font:700 26px/1.1 "Space Grotesk",sans-serif;margin:0;letter-spacing:-.5px}
+h1 span{color:var(--acc)}
+.sub{color:var(--mute);font-size:13px;margin-top:4px}
+.score{display:flex;gap:14px;font:600 14px "Space Grotesk",sans-serif}
+.score b{font-size:22px;display:block;line-height:1}
+.score .ok b{color:var(--ok)}.score .bad b{color:var(--bad)}
+.bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 16px}
+.bar i{display:block;height:100%;background:var(--acc);transition:width .3s}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;align-items:center}
+.filters .sep{width:1px;height:22px;background:var(--line);margin:0 4px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 11px;border-radius:999px;font:500 13px Inter,sans-serif;cursor:pointer}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip.act{border-color:var(--acc);color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+.meta{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;align-items:center}
+.tag{font:600 11px Inter;text-transform:uppercase;letter-spacing:.6px;padding:3px 8px;border-radius:6px;background:var(--chip);color:var(--mute)}
+.tag.t-Yorum{background:#e7f0ff;color:#1c5fd4}.tag.t-Senaryo{background:#f3e8ff;color:#7b2fd0}.tag.t-Hesaplama{background:#fff1db;color:#b35c00}
+@media (prefers-color-scheme:dark){.tag.t-Yorum{background:#1a2a44;color:#8ab4ff}.tag.t-Senaryo{background:#2c1d40;color:#c9a2ff}.tag.t-Hesaplama{background:#3a2a12;color:#ffc078}}
+.qn{margin-left:auto;color:var(--mute);font:600 13px "Space Grotesk"}
+.q{font-size:17px;font-weight:600;margin:0 0 16px;white-space:pre-line}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:transparent;color:var(--ink);padding:12px 14px;border-radius:12px;margin-bottom:8px;cursor:pointer;font:inherit;transition:border-color .15s,background .15s}
+.opt:hover:not([disabled]){border-color:var(--acc)}
+.opt .l{flex:none;width:26px;height:26px;border-radius:7px;background:var(--chip);display:grid;place-items:center;font:700 13px "Space Grotesk"}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}.opt.ok .l{background:var(--ok);color:#fff}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}.opt.bad .l{background:var(--bad);color:#fff}
+.opt[disabled]{cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--chip);font-size:14px;display:none}
+.exp.show{display:block}
+.exp b{display:block;margin-bottom:3px}
+.nav{display:flex;justify-content:space-between;margin-top:16px;gap:8px}
+.btn{border:none;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;font:600 14px Inter;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.35;cursor:default}
+.grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:18px}
+.grid button{width:34px;height:30px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--mute);font:600 12px "Space Grotesk";cursor:pointer;padding:0}
+.grid button.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.grid button.bad{background:var(--bad);border-color:var(--bad);color:#fff}
+.grid button.cur{outline:2px solid var(--acc);outline-offset:1px}
+.foot{color:var(--mute);font-size:12px;margin-top:18px;text-align:center}
+.empty{padding:40px;text-align:center;color:var(--mute)}
+.done{text-align:center;padding:10px 0}
+.done h2{font:700 40px "Space Grotesk";margin:0}
+kbd{font:600 11px "Space Grotesk";border:1px solid var(--line);border-radius:4px;padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div><h1>İSG <span>Sınav</span> Hazırlık</h1><div class="sub">Ders 1: Temel İSG · Ders 2: Tarihsel Gelişim &amp; 6331</div></div>
+  <div class="score"><div class="ok"><b id="sOk">0</b>doğru</div><div class="bad"><b id="sBad">0</b>yanlış</div><div><b id="sPct">–</b>başarı</div></div>
+</header>
+<div class="bar"><i id="prog" style="width:0"></i></div>
+<div class="filters" id="filters"></div>
+<div class="card" id="card"></div>
+<div class="grid" id="grid"></div>
+<div class="foot">Klavye: <kbd>A</kbd>–<kbd>D</kbd> veya <kbd>1</kbd>–<kbd>4</kbd> cevap · <kbd>←</kbd> <kbd>→</kbd> gezinme · Şıklar karıştırılır, Sıfırla ile yeniden karışır</div>
+</div>
+<script>
+// Her sorunun doğru cevabı o[0]; şıklar sayfada karıştırılır.
+const Q = [
+// ===================== DERS 1 — TEMEL İSG =====================
+{d:1,t:"Bilgi",q:"Uluslararası Çalışma Örgütü'ne (ILO) göre iş kazası nasıl tanımlanır?",
+o:["Planlanmamış ve beklenmeyen bir olay sonucunda sakatlanmaya ve zarara neden olan durum","Çalışanın işyerinde geçirdiği her türlü sağlık sorunu","Yalnızca ölümle sonuçlanan işyeri olayları","İşverenin ihmalinden kaynaklanan maddi hasar"],
+e:"ILO tanımının iki anahtar kelimesi: 'planlanmamış' ve 'beklenmeyen'. Ölüm şartı yok, işveren kusuru şartı da yok."},
+{d:1,t:"Yorum",q:"\"İSG, kaza olduktan sonra konuyu ele alan değil, kaza olasılıklarını ortadan kaldırmaya yönelik çalışmalar yapan bir bilim dalıdır.\" ifadesi İSG'nin hangi temel yaklaşımını vurgular?",
+o:["Önleyici (proaktif) yaklaşım","Tazmin edici yaklaşım","Cezalandırıcı yaklaşım","Tedavi edici (reaktif) yaklaşım"],
+e:"Vurgu 'kaza olmadan önce' üzerinde. 6331'in de ilk temel yaklaşımı 'olmadan önle'dir."},
+{d:1,t:"Bilgi",q:"İSG'nin hukuki açıdan tanımına göre, işçilerin karşılaştığı tehlikelerin giderilmesine ilişkin yükümlülükler esas olarak kime ve hangi hukuk temelinde getirilmiştir?",
+o:["İşverene, kamu hukuku temelinde","Çalışana, özel hukuk temelinde","Sendikalara, iş hukuku temelinde","Devlete, ceza hukuku temelinde"],
+e:"Hukuki tanım: yükümlülükler 'esas olarak işverene, kamu hukuku temelinde' getirilen kurallar bütünüdür."},
+{d:1,t:"Bilgi",q:"ILO'nun modern İSG tanımına göre amaç, tüm mesleklerde çalışanların hangi yönlerden iyilik halinin en üst düzeyde tutulmasıdır?",
+o:["Bedensel, ruhsal ve sosyal","Yalnızca bedensel","Bedensel ve ekonomik","Ruhsal ve hukuki"],
+e:"Üçlü yapı: bedensel–ruhsal–sosyal. WHO'nun sağlık tanımıyla da paraleldir."},
+{d:1,t:"Yorum",q:"Modern anlamda İSG tanımında, çalışanı korumanın yanında hangi iki amaç da açıkça yer alır?",
+o:["Üretimin devamlılığını sağlamak ve verimliliği artırmak","Vergi yükünü azaltmak ve ihracatı artırmak","Sendikal hakları genişletmek ve ücretleri artırmak","Sigorta primlerini düşürmek ve maliyeti azaltmak"],
+e:"Modern tanım İSG'yi sadece bir maliyet değil, üretim sürekliliği ve verimlilik aracı olarak görür."},
+{d:1,t:"Bilgi",q:"İşyerlerinde bulunan sağlık risklerinin saptanması, ölçümlerinin yapılması ve bu risklerin ortadan kaldırılması için teknik düzenlemeler yapılmasına ne ad verilir?",
+o:["İş hijyeni","İş güvenliği","Ergonomi","Sağlık gözetimi"],
+e:"İş hijyeni = sapta → ölç → teknik düzenleme ile kaldır. Gürültü, toz ölçümü tipik örneklerdir."},
+{d:1,t:"Senaryo",q:"Lumbal disk hernisi olan bir çalışan, elle yük taşıma işine verilmiş ve şikâyetleri ağırlaşarak akut ağrılı disk hernisine dönüşmüştür. Bu durum en doğru şekilde nasıl sınıflandırılır?",
+o:["İşle ilgili hastalık","Meslek hastalığı","İş kazası","Kalıtsal hastalık"],
+e:"Hastalık işten önce de vardı (temel etken işyeri dışında); iş onu ağırlaştırdı. Bu, işle ilgili hastalığın tam tanımıdır. Asıl hata: uygun işe yerleştirmenin yapılmaması."},
+{d:1,t:"Yorum",q:"Meslek hastalığı ile işle ilgili hastalık arasındaki temel fark aşağıdakilerden hangisidir?",
+o:["İşle ilgili hastalıklarda temel etken işyeri dışındadır; iş koşulları hastalığın seyrini ağırlaştırır","Meslek hastalıkları her zaman işle ilgili hastalıklardan daha sık görülür","İşle ilgili hastalıklar yalnızca kazalardan sonra ortaya çıkar","Meslek hastalıklarında çalışma ortamının hiçbir etkisi yoktur"],
+e:"Meslek hastalığı doğrudan mesleki maruziyetten doğar; işle ilgili hastalıkta ise iş, mevcut veya çok faktörlü bir hastalığı kötüleştirir. Ayrıca işle ilgili hastalıklar daha SIK görülür."},
+{d:1,t:"Bilgi",q:"Aşağıdakilerden hangisi notlarda 'işle ilgili hastalık' örnekleri arasında sayılmaz?",
+o:["Kurşun zehirlenmesi","Kalp hastalıkları","Kronik obstrüktif akciğer hastalıkları","Kas-iskelet sistemi hastalıkları"],
+e:"Kurşun zehirlenmesi doğrudan mesleki maruziyetle oluşan klasik bir meslek hastalığıdır. Diğerleri çok faktörlü, kronik-dejeneratif işle ilgili hastalıklardır."},
+{d:1,t:"Bilgi",q:"Uygun işe yerleştirilmeme nedeniyle Avrupa Birliği'nde çalışanların yaklaşık ne kadarında sırt ağrısı problemi bulunmaktadır?",
+o:["Her üç çalışandan birinde","Her on çalışandan birinde","Her iki çalışandan birinde","Her beş çalışandan birinde"],
+e:"Notlardaki veri: AB'de her üç çalışandan birinde sırt ağrısı."},
+{d:1,t:"Bilgi",q:"Dünya Sağlık Örgütü'ne göre işle ilgili hastalıkların kısa tanımı hangisidir?",
+o:["Çalışma koşulları nedeniyle doğal seyri değişen hastalıklar","Yalnızca yasal listede yer alan hastalıklar","İşe girişte saptanan hastalıklar","Bulaşıcı olan mesleki hastalıklar"],
+e:"WHO: çalışma ortamı ve şeklinin, diğer sebepler arasında önemli bir faktör olduğu hastalıklar — kısaca doğal seyri değişen hastalıklar."},
+{d:1,t:"Yorum",q:"İş sağlığının amaçlarından \"yapılan iş ile işçi arasında uyumu sağlayarak asgari yorgunlukla optimal randıman elde etmek\" ifadesi günümüzde en çok hangi disiplinle ilişkilidir?",
+o:["Ergonomi","Toksikoloji","Epidemiyoloji","Mikrobiyoloji"],
+e:"İş–insan uyumu, yorgunluk ve verim dengesi ergonominin konusudur."},
+{d:1,t:"Senaryo",q:"Bir işyerinde çalışanların sağlığını belirleyen etkenler sınıflandırılıyor. Aşağıdakilerden hangisi 'bireysel özellikler' grubunda yer alır?",
+o:["Yaşam stili ve sigara-alkol alışkanlıkları","Gürültü ve titreşim","Ergonomik faktörler","Psikososyal faktörler"],
+e:"Bireysel: yaş, cinsiyet, genetik, beslenme, alışkanlıklar, yaşam stili. Diğer şıklar işyeri ortam faktörleridir."},
+{d:1,t:"Bilgi",q:"Aşağıdakilerden hangisi iş güvenliğinin dört temel amacından biri değildir?",
+o:["İşletmenin pazar payını artırmak","Çalışanları korumak","Üretimin güvenliğini sağlamak","Ekolojik çevreye zarar vermemek"],
+e:"Dört amaç: çalışanları korumak, üretim güvenliği, işletme güvenliği, ekolojik çevreyi korumak."},
+{d:1,t:"Senaryo",q:"Bir fabrikada alınan tedbirlerle makinelerin arızalanarak devre dışı kalması, patlama ve yangın gibi işletmeyi tehlikeye düşürecek durumların ortadan kaldırılması hedefleniyor. Bu, iş güvenliğinin hangi amacına örnektir?",
+o:["İşletme güvenliğini sağlamak","Üretim güvenliğini sağlamak","Ekolojik çevreyi korumak","Çalışanları korumak"],
+e:"Makine arızası, patlama, yangın → işletmenin kendisinin güvenliği."},
+{d:1,t:"Senaryo",q:"Bir gıda firması, ürettiği ürünlerin satışının sürekli olmasını ve ürünün çalışana ve topluma zarar vermeyecek şekilde muhafaza edilmesini hedefliyor. Bu hedef hangi kavramla ifade edilir?",
+o:["Üretim güvenliği","İşletme güvenliği","İş hijyeni","İş güvenliği"],
+e:"Notlardaki tanım birebir: üretim güvenliği = satışın devamlılığı + ürünün zararsız muhafazası."},
+{d:1,t:"Senaryo",q:"Bir boya fabrikasının arıtılmamış atık suyunu derede bırakmasını önlemeye yönelik çalışma, iş güvenliğinin hangi amacıyla doğrudan ilgilidir?",
+o:["Ekolojik çevreyi korumak","İşletme güvenliğini sağlamak","Üretim güvenliğini sağlamak","Uygun işe yerleştirme"],
+e:"İşletme çıktılarının doğal çevreye aktarılmasını önlemek → ekolojik çevreyi koruma."},
+{d:1,t:"Bilgi",q:"Aşağıdakilerden hangisi İSG'nin temel ilkeleri arasında yer almaz?",
+o:["Üretim kotalarının artırılması","Uygun işe yerleştirme","Aralıklı kontrol muayeneleri","Sağlık eğitimi"],
+e:"6 temel ilke: uygun işe yerleştirme, risklerin saptanması, risklerin kontrolü, aralıklı kontrol muayeneleri, sağlık hizmeti, sağlık eğitimi."},
+{d:1,t:"Yorum",q:"Sistemli İSG çalışması yapmayan bir işletmenin karşılaşabileceği maliyetlerden hangisi en çok 'dolaylı/gizli maliyet' niteliğindedir?",
+o:["Siparişlerin gecikmesi ve pazar kaybı","Yaralı işçinin hastane faturası","Mahkemenin hükmettiği tazminat","Kesilen idari para cezası"],
+e:"Hastane, tazminat ve ceza doğrudan ölçülebilen giderlerdir. Sipariş gecikmesi, itibar ve pazar kaybı ise görünmeyen ama çoğu zaman daha büyük olan dolaylı maliyetlerdir."},
+{d:1,t:"Bilgi",q:"İş kazası sonrası Sosyal Güvenlik Kurumu'nun, yaptığı harcamaları kusurlu işverenden geri istemek için açtığı dava türü hangisidir?",
+o:["Rücu davası","İptal davası","Tespit davası","Men'i müdahale davası"],
+e:"Notlarda maliyetler arasında 'SGK'nın rücu davalarına muhatap olunabilir' maddesi yer alır."},
+{d:1,t:"Bilgi",q:"Çalışma hayatının sağlık alanındaki iki temel göstergesi hangileridir?",
+o:["İş kazaları ve meslek hastalıkları","İşsizlik oranı ve ücret düzeyi","Sendikalaşma oranı ve grev sayısı","Devamsızlık ve fazla mesai"],
+e:"İki gösterge: iş kazaları ve meslek hastalıkları. Nedenleri de ikiye ayrılır: tehlikeli davranış ve tehlikeli durum."},
+{d:1,t:"Bilgi",q:"6331 sayılı Kanun'a göre 'işyerinde var olan ya da dışarıdan gelebilecek, çalışanı veya işyerini etkileyebilecek zarar veya hasar verme potansiyeli' neyin tanımıdır?",
+o:["Tehlike","Risk","Ramak kala","Kaza"],
+e:"Tehlike = POTANSİYEL. Risk = o potansiyelin gerçekleşme İHTİMALİ."},
+{d:1,t:"Senaryo",q:"Bir atölyede zemine yağ dökülmüştür. \"Bir çalışanın bu zeminde kayarak düşüp yaralanma ihtimali\" hangi kavramı ifade eder?",
+o:["Risk","Tehlike","Meslek hastalığı","İş kazası"],
+e:"Yağlı zemin = tehlike (zarar potansiyeli). Kayıp yaralanma OLASILIĞI = risk."},
+{d:1,t:"Bilgi",q:"OHSAS 18001'e göre risk nasıl tanımlanır?",
+o:["Tehlikeli bir olayın olasılığı ile meydana geldiğinde oluşturacağı sağlık bozulmasının ciddiyet derecesinin birleşimi","Yaralanmaya sebep olabilecek kaynak, durum veya işlem","Yalnızca ölümle sonuçlanan olayların sıklığı","İşyerinde kullanılan kimyasalların toplam miktarı"],
+e:"OHSAS: Risk = Olasılık × Şiddet. İkinci şık OHSAS'ın TEHLİKE tanımıdır."},
+{d:1,t:"Bilgi",q:"OHSAS 18001'e göre 'insanların yaralanması veya sağlığının bozulmasına sebep olabilecek kaynak, durum veya işlem' neyin tanımıdır?",
+o:["Tehlike","Risk","Kaza","Olay"],
+e:"OHSAS'ta tehlike: kaynak, durum veya işlem."},
+{d:1,t:"Bilgi",q:"Türkiye'de en yaygın şekilde benimsenen ve uygulanan iş sağlığı ve güvenliği yönetim sistemi hangisidir?",
+o:["TS OHSAS 18001","ISO 9001","ISO 14001","HACCP"],
+e:"ISO 9001 kalite, ISO 14001 çevre, HACCP gıda güvenliği yönetim sistemidir."},
+{d:1,t:"Senaryo",q:"Bir çalışan, presin bıçağına sıkışan parçayı makineyi durdurmadan çıkarmaya çalışıyor. Bu, iş kazası nedenlerinden hangisine örnektir?",
+o:["Tehlikeli davranış","Tehlikeli durum","Kaçınılmaz durum","Organizasyon kaynaklı tehlikeli durum"],
+e:"Çalışan makineyi durdurmadan bakım/ayar yapmak bir insan davranışıdır → tehlikeli davranış."},
+{d:1,t:"Senaryo",q:"Bir depoda aydınlatmanın yetersiz olması ve makinelerin koruyucusuz bulunması iş kazası nedenlerinden hangisi kapsamındadır?",
+o:["Tehlikeli durum","Tehlikeli davranış","Kişisel hata","Kaçınılmaz durum"],
+e:"Çalışanın değil, ortamın/ekipmanın kusuru → tehlikeli durum."},
+{d:1,t:"Senaryo",q:"Bir inşaatta çalışan baret takmadan çalışıyor; aynı iskelede korkuluk da eksik. Bu iki durum sırasıyla nasıl sınıflandırılır?",
+o:["Tehlikeli davranış – Tehlikeli durum","Tehlikeli durum – Tehlikeli davranış","İkisi de tehlikeli davranış","İkisi de tehlikeli durum"],
+e:"KKD'yi kullanmamak davranıştır; korkuluğun eksikliği ortamın durumudur. Kazaların çoğu ikisinin aynı anda bulunduğu yerde olur."},
+{d:1,t:"Bilgi",q:"Aşağıdakilerden hangisi tehlikeli davranışların nedenleri arasında yer almaz?",
+o:["Yetersiz aydınlatma","Yorgunluk","Eğitim, bilgi ve tecrübe eksikliği","Vardiya değişimine uyum sağlayamama"],
+e:"Yetersiz aydınlatma bir tehlikeli DURUMDUR; davranışın nedeni değil, ortamın özelliğidir."},
+{d:1,t:"Bilgi",q:"Aşağıdakilerden hangisi işyeri organizasyonundan kaynaklanan tehlikeli durumlardan biridir?",
+o:["Yetki ve sorumlulukların belli olmaması","Kaygan zemin","Gürültü","Koruyucusuz makine"],
+e:"Organizasyon kaynaklı: eğitim verilmemesi, teknik eleman yetersizliği, iş bölümü olmaması, yetki-sorumluluk belirsizliği, yönetim hataları, üçüncü şahısların etkisi."},
+{d:1,t:"Bilgi",q:"Notlardaki sınıflamaya göre 'monoton çalışma ve aşırı iş yükü' hangi etken grubundadır?",
+o:["Psikolojik etkenler","Psiko-sosyal etkenler","Ergonomik etkenler","Fiziksel etkenler"],
+e:"Psikolojik: monoton çalışma, aşırı iş yükü. Psiko-sosyal ise insanın çevresiyle olan ilişkisidir; bu ayrım sınavda sık karıştırılır."},
+{d:1,t:"Bilgi",q:"Aşağıdakilerden hangisi fiziksel etkenler arasında yer almaz?",
+o:["Mantar","Titreşim","Nem","Basınç"],
+e:"Fiziksel: titreşim, gürültü, nem, ısı, ışık, basınç. Mantar, bakteri ve virüs biyolojik etkendir."},
+{d:1,t:"Bilgi",q:"Notlara göre işyerlerinde meydana gelen kazaların dağılımı nasıldır?",
+o:["%88 tehlikeli hareket, %10 tehlikeli durum, %2 kaçınılmaz durum","%50 tehlikeli hareket, %40 tehlikeli durum, %10 kaçınılmaz durum","%10 tehlikeli hareket, %88 tehlikeli durum, %2 kaçınılmaz durum","%70 tehlikeli durum, %20 tehlikeli hareket, %10 kaçınılmaz durum"],
+e:"88–10–2 (Heinrich). Kazaların büyük çoğunluğu insan davranışından kaynaklanır."},
+{d:1,t:"Yorum",q:"Kazaların %88'inin tehlikeli hareketlerden kaynaklandığı bilgisinden çıkarılabilecek en doğru sonuç hangisidir?",
+o:["Kaza önlemede eğitim, disiplin ve güvenlik kültürü kritik öneme sahiptir","Makine koruyucularına yatırım yapmak gereksizdir","Kazaların çoğu önlenemez","Kazaların sorumluluğu tamamen çalışana aittir"],
+e:"Davranış kaynaklı kazalar eğitim ve kültürle azaltılır. Ama bu, mühendislik önlemlerinin gereksiz olduğu ya da suçun çalışana yükleneceği anlamına gelmez (işveren yükümlülüğü sürer)."},
+{d:1,t:"Bilgi",q:"Notlara göre ağır yaralanma veya ölümle sonuçlanan her kazanın temelinde kaç hafif yaralanma ve kaç yaralanmasız olay vardır?",
+o:["29 hafif yaralanma, 300 yaralanmasız olay","10 hafif yaralanma, 100 yaralanmasız olay","30 hafif yaralanma, 600 yaralanmasız olay","88 hafif yaralanma, 300 yaralanmasız olay"],
+e:"1 – 29 – 300 kaza piramidi."},
+{d:1,t:"Hesaplama",q:"Bir işyerinde bir yılda 600 yaralanmasız olay (ramak kala) kaydedilmiştir. 1-29-300 oranı geçerli kabul edilirse, aynı dönemde beklenen hafif yaralanma ve ağır kaza sayısı yaklaşık kaçtır?",
+o:["58 hafif yaralanma, 2 ağır kaza","29 hafif yaralanma, 1 ağır kaza","87 hafif yaralanma, 3 ağır kaza","300 hafif yaralanma, 29 ağır kaza"],
+e:"600 / 300 = 2 kat. 29 × 2 = 58 hafif yaralanma, 1 × 2 = 2 ağır kaza."},
+{d:1,t:"Yorum",q:"1-29-300 kaza piramidinden işletmeler için çıkarılabilecek en önemli pratik ders hangisidir?",
+o:["Yaralanmasız olaylar (ramak kala) raporlanıp incelenirse ağır kazalar önlenebilir","Yalnızca ölümlü kazalar incelenmelidir","Hafif yaralanmalar istatistiksel olarak önemsizdir","Kaza sayısı şansa bağlıdır"],
+e:"Piramidin tabanı (300) üstteki 1'in habercisidir. Tabanı küçültmek tepeyi küçültür; bu yüzden ramak kala raporlaması kritiktir."},
+{d:1,t:"Bilgi",q:"Risk yönetiminde kullanılan PUKÖ döngüsünün açılımı hangisidir?",
+o:["Planla – Uygula – Kontrol et – Önlem al","Planla – Uyar – Kaydet – Önle","Programla – Uygula – Kontrol et – Ölç","Planla – Uygula – Kurtar – Önle"],
+e:"PUKÖ = İngilizcedeki PDCA (Plan–Do–Check–Act) döngüsü."},
+{d:1,t:"Senaryo",q:"Bir İSG uzmanı işyerindeki tehlikeleri belirliyor ve hangi risk değerlendirme tekniğini kullanacağına karar veriyor. PUKÖ döngüsünün hangi aşamasındadır?",
+o:["Planla","Uygula","Kontrol et","Önlem al"],
+e:"Planla aşaması: amaç, mevcut durum, hedefler, kayıt analizi, tehlikelerin belirlenmesi, teknik seçimi, uygulama planı, iç talimatlar."},
+{d:1,t:"Senaryo",q:"Notlardaki PUKÖ ayrımına göre 'risklerin kabul edilebilir olup olmadığına karar verme ve kontrol önlemlerinin seçilip uygulanması' hangi aşamada yer alır?",
+o:["Uygula","Planla","Kontrol et","Önlem al"],
+e:"Uygula: riskleri değerlendirme, kabul edilebilirliğe karar, kontrol önlemlerinin seçimi/uygulanması, bilgilendirme ve eğitim."},
+{d:1,t:"Senaryo",q:"Uygulanan önlemlerin ardından 'hedeflere ulaşıldı mı?' sorusu için ölçüm ve analiz yapılıyor, olası sapmalar tespit edilip kaydediliyor. Bu hangi aşamadır?",
+o:["Kontrol et","Önlem al","Uygula","Planla"],
+e:"Kontrol et: ölçüm-analiz, talimatların gözden geçirilmesi, sapmaların tespiti ve kaydı."},
+{d:1,t:"Senaryo",q:"Etkili olduğu görülen önlemler standart hale getiriliyor ve kalıcı bir denetleme sistemi kuruluyor. PUKÖ'nün hangi aşamasıdır?",
+o:["Önlem al","Kontrol et","Uygula","Planla"],
+e:"Önlem al: kalıcı denetleme sistemi, etkili önlemlerin standartlaştırılması, gerekli eğitim ve yönlendirmeler. Sonra döngü yeniden başlar."},
+{d:1,t:"Bilgi",q:"'Güvenlik kültürü' kavramı ilk kez hangi olayla ilgili hazırlanan raporda tanımlanmıştır?",
+o:["Çernobil faciası","Bhopal faciası","Titanik kazası","Soma maden kazası"],
+e:"IAEA'ya danışmanlık yapan INSAG, Çernobil raporunda güvenlik kültürünü ilk kez tanımladı."},
+{d:1,t:"Yorum",q:"İş güvenliği alanında 'güvenlik kültürü' kavramına ihtiyaç duyulmasının temel nedeni nedir?",
+o:["Salt teknolojik yöntemlerin İSG'yi sağlamakta yetersiz kalması","Makinelerin artık kaza yapmaması","Yasal düzenlemelerin tamamen kaldırılması","Çalışan sayısının azalması"],
+e:"Teknik çözümler tek başına yetmedi; yönetsel yöntemlerle ve çalışanların tutumlarıyla desteklenmesi gerektiği ortaya çıktı."},
+{d:1,t:"Yorum",q:"Notlara göre güvensiz davranışlar çalışanlar arasında neden 'bulaşıcı' hale gelebilir?",
+o:["Her güvensiz davranış kazayla sonuçlanmadığı ve bazen zaman kazandırıp işi kolaylaştırdığı için","Güvensiz davranış yasal olarak teşvik edildiği için","İşverenler güvensiz davranışı ödüllendirmek zorunda olduğu için","Güvensiz davranış her zaman daha güvenli olduğu için"],
+e:"'Bir şey olmadı, üstelik daha hızlı bitti' algısı davranışı pekiştirir ve diğer çalışanlara yayar."},
+{d:1,t:"Yorum",q:"Bir işletmenin kâğıt üzerinde eksiksiz bir İSG yönetim sistemi olmasına rağmen kazalar sürüyorsa, notlara göre eksik olan büyük ihtimalle nedir?",
+o:["Güvenlik kültürü","Güvenlik yönetimi dokümantasyonu","Risk tanımı","OHSAS sertifikası"],
+e:"Güvenlik yönetimi kayıt altına alınmış bir sistemdir; uygulamada hayata geçmesini çalışanların algı, tutum ve alışkanlıkları, yani güvenlik kültürü belirler."},
+{d:1,t:"Bilgi",q:"Aşağıdakilerden hangisi 'örgüt iklimi' ile ilgili notlarda yer alan bir ifade değildir?",
+o:["Örgüt iklimi yalnızca makinelerin teknik özelliklerini ifade eder","İş çevresi hakkında kişisel değerlendirmelerdir","Kişilerin motivasyonunu ve başarısını etkiler","Örgütteki güvenlik kültürü algılamasını etkiler"],
+e:"Örgüt iklimi insan algısıyla ilgilidir; makinelerin teknik özellikleriyle değil."},
+{d:1,t:"Bilgi",q:"Aşağıdakilerden hangisi çalışanlarda güvenlik kültürünün yerleşmesi için gerekli koşullardan biri değildir?",
+o:["Hata yapan çalışanların herkesin önünde cezalandırılması","Yönetimin inanılır ve güvenilir görülmesi","Çalışanların karar verme süreçlerine katılması","Yönetim ile çalışanlar arasında açık iletişim"],
+e:"Herkesin önünde cezalandırmak raporlamayı öldürür; pozitif güvenlik kültürü 'adil kültürü' ve raporlamanın teşvik edilmesini gerektirir."},
+{d:1,t:"Senaryo",q:"Maaşları aylardır düzenli ödenmeyen işçilerin İSG eğitimlerine ilgisiz kaldığı gözlemleniyor. Bu durumu notlardaki hangi yaklaşım en iyi açıklar?",
+o:["Maslow'un ihtiyaçlar hiyerarşisi","Heinrich'in 1-29-300 piramidi","PUKÖ döngüsü","Miazma teorisi"],
+e:"Temel ihtiyaçlar karşılanmadan kişiden kuruma bağlılık ve üst düzey davranış beklenemez."},
+{d:1,t:"Bilgi",q:"Aşağıdakilerden hangisi İSG kültürünün geliştirilmesinde DEVLETİN görevleri arasında sayılmıştır?",
+o:["Kayıt dışı istihdamın ve çocuk işçiliğinin önlenmesi","Kişisel koruyucu ekipmanın kuralına uygun kullanılması","İlk ve acil yardım hizmetlerinin organizasyonu","İSG alanında akademik ortamın oluşturulması"],
+e:"KKD kullanımı → çalışan; ilk yardım organizasyonu → işveren; akademik ortam → üniversite."},
+{d:1,t:"Bilgi",q:"Üretim süreçlerinde \"Önce verimlilik\" yerine \"Önce insan\" yaklaşımının benimsenmesi, İSG kültürünün geliştirilmesinde kimin görevidir?",
+o:["İşverenin","Devletin","Üniversitelerin","Ailelerin"],
+e:"Notlarda işverenin görevleri listesinin ilk maddesidir."},
+{d:1,t:"Yorum",q:"Aşağıdaki görevlerden hangisi hem devletin, hem işverenin hem de üniversitelerin görev listelerinde ortak olarak yer alır?",
+o:["İş kazalarının bilimsel analizi","Çocuk işçiliğinin yok edilmesi","Kişisel koruyucu ekipman kullanımı","Asgari ücretin belirlenmesi"],
+e:"'İş kazalarının bilimsel analizi' üç listede de geçer: kazadan öğrenmek tüm paydaşların ortak sorumluluğudur."},
+{d:1,t:"Bilgi",q:"Aşağıdakilerden hangisi İSG kültürünün geliştirilmesinde ÇALIŞANLARIN görevlerinden biridir?",
+o:["Risk değerlendirmesi ve risk yönetimi süreçlerine katılmak","Güvenilir bir kayıt sistemi kurmak","Hekim ve iş müfettişi istihdam etmek","İşçi sağlığı enstitüleri kurmak"],
+e:"Çalışanlar: bilgi sahibi olmak, risk değerlendirmesine katılmak, eğitim/örgütlenme etkinlikleri, KKD'yi doğru kullanmak."},
+{d:1,t:"Senaryo",q:"Bir çalışan, neredeyse bir kazaya yol açacak bir hatasını raporladı; ustabaşı onu ekibin önünde azarladı. Bu tutum pozitif güvenlik kültürünün hangi özelliğine aykırıdır?",
+o:["Olayları rapor edenlerin cezalandırılmayıp teşvik edildiği adil kültür","Yönetim kurulu toplantısında İSG'nin ilk madde olması","İşgücünün istikrarlı olması","Dış baskılara karşı sağlam tutum"],
+e:"Pozitif kültürde suçlama veya küçük düşürülme korkusu olmadan raporlama yapılır. Azarlanan çalışan bir dahaki sefere rapor etmez."},
+{d:1,t:"Yorum",q:"Pozitif güvenlik kültürüne sahip bir işletmede, meydana gelen hatalara ilişkin soruşturmaların asıl amacı nedir?",
+o:["Sorunun kaynağını teşhis etmek ve tekrarlanmasını önlemek","Suçluyu bulup işten çıkarmak","Sigorta şirketine rapor hazırlamak","Kazayı kamuoyundan gizlemek"],
+e:"Amaç suçlu değil sebep bulmaktır: kaynak teşhisi, tekrarın önlenmesi ve kime ne görev düştüğünün belirlenmesi."},
+{d:1,t:"Bilgi",q:"Geçmiş deneyimlerinden ders çıkarıp gelecekte yararlanmak üzere iyileştirmeler yapan, pozitif güvenlik kültürüne sahip işletmelere ne ad verilir?",
+o:["Öğrenen örgütler","Bürokratik örgütler","Reaktif örgütler","Patolojik örgütler"],
+e:"Pozitif güvenlik kültürüne sahip işletmeler 'öğrenen örgüt' olma eğilimindedir."},
+{d:1,t:"Yorum",q:"Aşağıdakilerden hangisi pozitif güvenlik kültürüne sahip bir işletmenin özelliği OLAMAZ?",
+o:["İş güvenliğinin yalnızca İSG uzmanının sorumluluğu olarak görülmesi","Herkesin işyerindeki riskleri dışarıdaki insanlarla serbestçe konuşabilmesi","Yönetim ve denetleyicilerin aynı inançları paylaşması","İşletmenin daha az iş kazasına maruz kalma eğiliminde olması"],
+e:"Pozitif kültürde her kademe rolünü bilir ve sahiplenir; İSG tek bir kişiye havale edilmez."},
+{d:1,t:"Bilgi",q:"ILO'nun güvenlik kültürü tanımında hangi ilkeye öncelik verildiği vurgulanır?",
+o:["Önleme prensibine","Tazminat prensibine","Cezalandırma prensibine","Verimlilik prensibine"],
+e:"ILO: hak, sorumluluk ve ödevlerin önleme prensibine öncelik verilerek açıkça tanımlandığı bir sistem."},
+{d:1,t:"Bilgi",q:"Aşağıdakilerden hangisi notlarda tehlikeli davranış örneği olarak sayılmaz?",
+o:["Kaygan veya pürüzlü zemin","Koruyucuların işe yaramaz hale getirilmesi","Yüksekten atlama, koşma, malzeme fırlatma","Güvensiz istifleme"],
+e:"Kaygan zemin ortamın özelliğidir → tehlikeli durum."},
+{d:1,t:"Bilgi",q:"Aşağıdakilerden hangisi tehlikeli durumlara karşı alınabilecek önlemler arasında notlarda sayılmıştır?",
+o:["Mühendislik çalışmaları, ergonomik yöntemlere uyma, eğitim ve disiplin","Yalnızca ceza uygulamaları","Yalnızca sigorta yaptırmak","Üretimi durdurmak"],
+e:"Notlardaki önlemler: mühendislik çalışmaları, ergonomi, eğitim, disiplin."},
+
+// ===================== DERS 2 — TARİHSEL GELİŞİM & 6331 =====================
+{d:2,t:"Bilgi",q:"İlk İSG söylevi kabul edilen tespitleri yapan, MÖ 2700'lerde Antik Mısır'da yaşamış mimar, mühendis, hekim ve rahip kimdir?",
+o:["İmhotep","Hipokrat","Hammurabi","Galen"],
+e:"İmhotep, piramit yapımında çok sayıda ölüm ve bel sorunlarını Hipokrat'tan yüzyıllar önce tespit etti."},
+{d:2,t:"Yorum",q:"Eski çağlarda tehlikeli işlerde esir, köle ve suçluların çalıştırılması, İSG'nin neden uzun süre gelişmediğini en iyi nasıl açıklar?",
+o:["Ölen veya hastalanan çalışanın yerine kolayca başkası bulunabildiği için korunmalarına gerek görülmedi","Eski çağlarda iş kazası hiç yaşanmadığı için","Madencilik henüz başlamadığı için","Hekimler meslek hastalıklarını bilmediği için"],
+e:"İnsan hayatı 'ikame edilebilir' görülünce korumaya yatırım yapılmadı. Notlar: 'Hastalanan, kaza geçiren ve ölenlerin yerine başkaları bulunabiliyordu.'"},
+{d:2,t:"Bilgi",q:"İşi yapanı işin negatif sonuçlarından sorumlu kılan ilk hükümler, tarihin bilinen ilk yasalarından hangisinde yer alır?",
+o:["Hammurabi Kanunları (MÖ 2000'ler, Babil)","Roma Hukuku","Mecelle","Maaddin Nizamnamesi"],
+e:"Babil dönemindeki Hammurabi Kanunları İSG'nin temellerinin atıldığı ilk düzenlemelerdir."},
+{d:2,t:"Senaryo",q:"Hammurabi Kanunlarına göre, inşa edilen bir ev yıkılır ve bina sahibinin oğlu hayatını kaybederse hangi yaptırım uygulanır?",
+o:["Binayı inşa eden kişinin oğlu ölüm cezasına çarptırılır","Binayı inşa eden kişi para cezası öder","Binayı inşa eden kişi sürgün edilir","Binayı inşa eden kişi aynı vasıfta bir köle verir"],
+e:"'Göze göz' mantığı: sahibi ölürse inşaatçı, oğlu ölürse inşaatçının oğlu, kölesi ölürse aynı vasıfta köle, mal hasarında tüm zarar karşılanır."},
+{d:2,t:"Senaryo",q:"Hammurabi Kanunlarına göre, yıkılan evde bina sahibinin kölesi ölürse inşaatçının yükümlülüğü nedir?",
+o:["Aynı vasfa sahip bir köleyi bina sahibine vermek","Ölüm cezasına çarptırılmak","Evi bedelsiz yeniden yapmak","Oğlunu bina sahibine vermek"],
+e:"Köle o dönemde mal sayıldığı için yaptırım 'ikame' şeklindedir."},
+{d:2,t:"Yorum",q:"Hammurabi Kanunlarının günümüz İSG anlayışına göre en belirgin eksikliği nedir?",
+o:["Zarar oluştuktan sonra cezalandırmaya odaklanması, önleyici bir yaklaşım içermemesi","İnşaatçıyı hiç sorumlu tutmaması","Yalnızca çalışanları koruması","Risk değerlendirmesini zorunlu tutması"],
+e:"Hammurabi'nin mantığı caydırıcılık ve sonradan cezalandırmadır. 6331 ise 'olmadan önle' der: risk değerlendirmesi, eğitim, gözetim."},
+{d:2,t:"Bilgi",q:"İlk kez işçilere yüksek enerjili besin verilmesi üzerinde duran tarihçi kimdir?",
+o:["Herodot","Plini","Juvenal","Nicander"],
+e:"Herodot (MÖ 485–425) – yüksek enerjili besin."},
+{d:2,t:"Bilgi",q:"Kurşun koliğini tanımlayan; halsizlik, görme bozukluğu ve felçler ile kurşun maruziyeti arasında ilişki kuran kimdir?",
+o:["Hipokrat","Galen","Aristoteles","Paracelsus"],
+e:"Hipokrat ilk kez kurşunun zararlı etkileri üzerinde durmuştur."},
+{d:2,t:"Bilgi",q:"Çalışanların tehlikeli tozlardan korunması için başlarına maske yerine torba geçirmelerini öneren kimdir?",
+o:["Plini","Juvenal","Herodot","Agricola"],
+e:"Plini (MS 23–79). Bugünkü solunum koruyucularının ilkel atası."},
+{d:2,t:"Bilgi",q:"Ayakta çalışanlarda varis oluşumuna ve demircilerdeki göz rahatsızlıklarına dikkat çeken kimdir?",
+o:["Juvenal","Plini","Platon","Nicander"],
+e:"Juvenal (MS 60–140)."},
+{d:2,t:"Bilgi",q:"Hipokrat'ın çalışmalarını geliştirerek, sorunları yalnızca tanımlamakla kalmayıp korunma tedbirleri alınması gerektiğini vurgulayan kimdir?",
+o:["Nicander","Herodot","Platon","Juvenal"],
+e:"Nicander (MÖ 200): tanımlamadan korunmaya geçiş."},
+{d:2,t:"Bilgi",q:"Bazı esnaf ve zanaatkârların çalışma pozisyonlarından kaynaklanan şekil bozuklukları hakkında bilgi veren düşünür kimdir?",
+o:["Platon (Eflatun)","Aristoteles","Herodot","Hipokrat"],
+e:"Platon: çalışma pozisyonu kaynaklı şekil bozuklukları. Aristoteles ise koşucuların hastalıkları ve gladyatör diyetiyle ilgilenmiştir."},
+{d:2,t:"Bilgi",q:"Gladyatörlerle seyircilerin vücut yapılarını karşılaştıran ve bugünkü spor hekimliğinin kurucusu kabul edilen hekim kimdir?",
+o:["Pergamonlu Galen","Hipokrat","Paracelsus","Ramazzini"],
+e:"Galen (MS 129–216), beden hareketleri–fizyoloji–tedavi ilişkisini kuran ilk hekim kabul edilir."},
+{d:2,t:"Yorum",q:"Galen'in savunduğu Miazma teorisi, hastalıkların nedenini neye bağlar?",
+o:["Kirli su, kirli hava ve kötü hijyen gibi çevresel faktörlere","Kişinin genetik yapısına","Mikroorganizmaların doğrudan bulaşmasına","Tanrısal cezalara"],
+e:"Miazma: çürümüş madde parçacıklarıyla dolu zehirli buhar/sis. Mekanizma yanlış olsa da hastalığı çevreye bağlaması hijyen önlemlerine yol açtı."},
+{d:2,t:"Bilgi",q:"'De Re Metallica' adlı eserinde madencilerin hastalıklarını, toza karşı maden ocağının havalandırılmasını ve korunma yöntemlerini anlatan, 'mineralojinin babası' kimdir?",
+o:["Georgius Agricola","Paracelsus","Ramazzini","Percival Pott"],
+e:"Agricola (1490–1555) – De Re Metallica (Madenlerin Doğası)."},
+{d:2,t:"Bilgi",q:"Madenlerde görülen kurşun ve civa zehirlenmelerinden bahsettiği 'De Morbis Metallici' eseriyle ilk iş hekimliği kitabını yazan kimdir?",
+o:["Paracelsus","Agricola","Ramazzini","Galen"],
+e:"Paracelsus. Aynı eserde bugün pnömokonyoz denilen kronik akciğer hastalıklarını tanımladı."},
+{d:2,t:"Yorum",q:"Paracelsus'un \"The dose makes the poison\" (Zehri yapan dozdur) sözü günümüz İSG uygulamalarında en çok hangi kavramın temelini oluşturur?",
+o:["Kimyasallar için maruziyet sınır değerleri","Çalışan temsilcisi seçimi","Acil durum tahliye planı","İş güvenliği uzmanı belge sınıfları"],
+e:"Bir maddenin zararlı olup olmaması miktara bağlıysa, 'güvenli seviye' tanımlanabilir. Bu fikir bugünkü ppm sınır değerlerinin temelidir."},
+{d:2,t:"Yorum",q:"Paracelsus'un \"Meslek hastalıkları riskinin artması, endüstriyel gelişmenin gerekli ve birlikte olan sonucudur\" sözü neyi ifade eder?",
+o:["Sanayileşme arttıkça mesleki risklerin de artacağını ve önlemin şart olduğunu","Endüstrinin hiçbir risk taşımadığını","Meslek hastalıklarının yalnızca tarımda görüldüğünü","Sanayileşmenin durdurulması gerektiğini"],
+e:"Riski üretimin doğal yan ürünü olarak görür; sanayi büyüdükçe İSG'nin de büyümesi gerektiğini ima eder."},
+{d:2,t:"Bilgi",q:"'İş sağlığının babası' ve ilk işyeri hekimi olarak kabul edilen kimdir?",
+o:["Bernardino Ramazzini","Percival Pott","Paracelsus","Alice Hamilton"],
+e:"Ramazzini, 1713'te 'De Morbis Artificum Diatriba' (Çalışanların Hastalıkları) ile meslek hastalıklarını sistematik olarak ele aldı."},
+{d:2,t:"Senaryo",q:"Bugün bir hekimin muayenede hastaya \"Ne iş yapıyorsunuz?\" diye sorarak ayrıntılı çalışma öyküsü alması, hangi isme dayanan bir uygulamadır?",
+o:["Ramazzini","Hipokrat","Galen","Agricola"],
+e:"Ramazzini hastalara mesleklerini sorarak iş–hastalık ilişkisini sorgulayan ilk hekimdir."},
+{d:2,t:"Bilgi",q:"'De Morbis Artificum Diatriba' adlı eser hangi yıl yayımlanmıştır?",
+o:["1713","1775","1556","1832"],
+e:"1713 — Ramazzini."},
+{d:2,t:"Yorum",q:"Ramazzini'nin, iş ve işçi uyumunun çalışanın sağlığı ve iş verimi üzerindeki etkisine dair düşüncesi bugün hangi bilim dalının konusudur?",
+o:["Ergonomi","Toksikoloji","Mineraloji","Epidemiyoloji"],
+e:"Notlar: bugün ergonomi olarak ifade edilen düşünceyi ilk kez dile getirmiştir. Ayrıca çalışma koşulları iyileşirse verimin artacağını söylemiştir."},
+{d:2,t:"Bilgi",q:"Notlara göre Sanayi Devrimi'ni başlatan buharın keşfi hangi yıldadır?",
+o:["1761","1713","1788","1832"],
+e:"1761 buharın keşfi → fabrikalar → tarımdan fabrikaya göç."},
+{d:2,t:"Yorum",q:"Sanayi Devrimi'nin İSG tarihindeki asıl önemi nedir?",
+o:["Kötü çalışma ve yaşam koşulları sonucu İSG'nin toplumsal bir sorun olarak gündeme gelmesi","İş kazalarının tamamen ortadan kalkması","Çocuk işçiliğinin hemen yasaklanması","Tarımsal üretimin artması"],
+e:"Göç, sağlıksız barınma, uzun mesai, salgınlar, kazalar → İSG artık tek tek hekimlerin değil, toplumun ve yasa koyucunun konusu oldu."},
+{d:2,t:"Bilgi",q:"1775 yılında baca temizleyicilerinde sık görülen skrotum kanserinin nedeninin yapılan iş olduğunu ortaya koyan kimdir?",
+o:["Percival Pott","Thomas Percival","Robert Peel","Michel Sadler"],
+e:"Percival Pott – ilk mesleki kanser tespiti. İsim benzerliğine dikkat: Thomas Percival başka biridir."},
+{d:2,t:"Hesaplama",q:"Pott'un tespiti 1775'te yapılmış, bu kanserin nedeni olan 1,2 dibenz antrasen ise ilk kimyasal kanserojen olarak 1932'de tanımlanmıştır. Aradaki süre yaklaşık ne kadardır ve bu ne gösterir?",
+o:["~150 yıl; gözleme dayalı tespit, bilimsel nedenin kanıtlanmasından çok önce önlem almayı mümkün kılar","~50 yıl; bilim gözlemden hızlı ilerler","~15 yıl; kanser kısa sürede anlaşılmıştır","~300 yıl; gözlemler önemsizdir"],
+e:"1932 − 1775 = 157 ≈ 150 yıl. 1788'deki yasa da kimyasal neden bilinmeden, sadece gözleme dayanarak çıkarılmıştır."},
+{d:2,t:"Bilgi",q:"Pott'un gözlemi üzerine 1788'de İngiltere'de çıkarılan 'Baca Temizleyenlerin ve Çıraklarının' yasasında en küçük çalışma yaşı kaç olarak belirlenmiştir?",
+o:["8","10","12","14"],
+e:"8 yaş. Ayrıca çırakların en az haftada bir kez yıkanması önerildi."},
+{d:2,t:"Bilgi",q:"Günde 14 saat çalıştırılan 4–6 yaşındaki çocuklarla ilgili rapordan etkilenip 1832'de 'Çırakların Sağlığı ve Morali' yasasını çıkartan işveren ve parlamenter kimdir?",
+o:["Sir Robert Peel","Michel Sadler","Robert Owen","Percival Pott"],
+e:"Robert Peel – çalışma saatini 12 saatle sınırladı ve havalandırmayı öngördü."},
+{d:2,t:"Bilgi",q:"1833'te yürürlüğe giren ve fabrikaların denetimi için müfettiş atanmasını zorunlu kılan 'Fabrikalar Yasası'nı getiren kimdir?",
+o:["Michel Sadler","Robert Peel","Thomas Percival","Robert Owen"],
+e:"Sadler: müfettiş zorunluluğu, 9 yaş altı çocuk yasağı, 18 yaş altına 12 saatten fazla çalışma yasağı."},
+{d:2,t:"Senaryo",q:"1833 Fabrikalar Yasası'na göre, 1834 yılında İngiltere'de 8 yaşındaki bir çocuğun fabrikada çalıştırılması ve 16 yaşındaki bir gencin günde 13 saat çalıştırılması hakkında ne söylenebilir?",
+o:["İkisi de yasaya aykırıdır","İkisi de yasaya uygundur","Yalnızca çocuğun çalıştırılması aykırıdır","Yalnızca gencin çalıştırılması aykırıdır"],
+e:"9 yaş altı işe alınamaz (8 < 9) ve 18 yaş altı 12 saatten fazla çalıştırılamaz (13 > 12). İkisi de ihlal."},
+{d:2,t:"Bilgi",q:"İngiltere'de 1842 yılında yapılan düzenleme ile maden ocaklarında kimlerin çalıştırılması yasaklanmıştır?",
+o:["Kadınların ve 10 yaşından küçük çocukların","Yalnızca 18 yaş altı gençlerin","Yabancı işçilerin","Mahkûmların"],
+e:"1842: kadınlar ve 10 yaş altı çocuklar madende çalıştırılamaz. 1844: işyeri hekimlerinin sorumlulukları genişletildi."},
+{d:2,t:"Bilgi",q:"Çalışma sürelerini daha da azaltan ve iş müfettişliği yapısını oluşturan İngiliz yasası hangisidir?",
+o:["1847 On Saat Yasası","1833 Fabrikalar Yasası","1788 Baca Temizleyicileri Yasası","1895 Bildirim Yasası"],
+e:"1847 – On Saat Yasası."},
+{d:2,t:"Yorum",q:"İngiltere'deki aşağıdaki düzenlemelerin kronolojik sırası hangisidir?\nI. Meslek hastalıklarının bildiriminin zorunlu hale getirilmesi\nII. Baca temizleyicileri yasası\nIII. On Saat Yasası\nIV. Fabrikalar Yasası",
+o:["II – IV – III – I","IV – II – III – I","II – III – IV – I","I – II – IV – III"],
+e:"1788 baca → 1833 Fabrikalar → 1847 On Saat → 1895 bildirim zorunluluğu."},
+{d:2,t:"Bilgi",q:"İngiltere'de işe giriş muayenesi, aralıklı sağlık muayeneleri ve tehlikeli işler için özel muayenelerin yasal nitelik kazandığı yıl hangisidir?",
+o:["1900","1847","1895","1919"],
+e:"1900 – muayeneler, meslek hastalığı bildirimi, sakatlananlar için özel rapor."},
+{d:2,t:"Yorum",q:"Yasal zorunluluk olmadan, 'vicdani refleks' göstererek kendi fabrikalarında çalışma sürelerini kısaltan ve küçük çocukları çalıştırmayan Robert Owen'ın tutumu günümüzde hangi kavrama en yakındır?",
+o:["Kurumsal sosyal sorumluluk / gönüllü iyi uygulama","Yasal yükümlülük","İdari para cezası","İşin durdurulması"],
+e:"Owen'ı diğerlerinden ayıran nokta, bunu yasa zorlamadan, işveren olarak gönüllü yapmasıdır."},
+{d:2,t:"Bilgi",q:"1919'da Harvard Üniversitesi'nin ilk kadın öğretim üyesi olan, bakır madenlerinde silikoz ve civa zehirlenmeleri üzerine çalışan ABD'li isim kimdir?",
+o:["Alice Hamilton","Florence Nightingale","Marie Curie","Rachel Carson"],
+e:"Alice Hamilton hayatının 40 yılını mesleki zararlar araştırmasına adadı."},
+{d:2,t:"Bilgi",q:"SSCB sağlık politikasının baş mimarlarından olan ve 1920'lerde koruyucu önlemlere odaklanan birçok araştırma merkezi kurduran isim kimdir?",
+o:["Alexander Semashko","Michel Sadler","Robert Owen","Thomas Percival"],
+e:"Semashko – Rusya/SSCB."},
+{d:2,t:"Senaryo",q:"Türk hekim Muzaffer Aksoy'un benzen kullanan kundura üreticilerinde kanser sıklığı üzerine yayımladığı makale (1965) sonucunda ABD'de ne değişmiştir?",
+o:["8 saatlik çalışmada izin verilen benzen maruziyeti 10 ppm'den 1 ppm'e düşürüldü","Benzen kullanımı tamamen serbest bırakıldı","Kundura üretimi yasaklandı","Benzen sınırı 1 ppm'den 10 ppm'e çıkarıldı"],
+e:"Aksoy, ABD hükümetinin açtığı davaya birinci derece tanık olarak çağrıldı; sınır 10 → 1 ppm oldu. Bilimsel bir yayın doğrudan mevzuatı değiştirdi."},
+{d:2,t:"Bilgi",q:"Notlardaki listeye göre İngiltere'den (1788) sonra İSG alanında ilk yasal düzenlemeyi yapan ülke hangisidir?",
+o:["Almanya (1839)","Fransa (1841)","ABD (1877)","İsviçre (1840)"],
+e:"Sıra: İngiltere 1788 → Almanya 1839 → İsviçre 1840 → Fransa 1841 → ABD 1877 → Rusya 1920."},
+{d:2,t:"Bilgi",q:"Uluslararası Çalışma Örgütü (ILO) hangi yıl kurulmuştur ve Türkiye hangi yıl üye olmuştur?",
+o:["1919 – 1932","1946 – 1950","1919 – 1923","1932 – 1946"],
+e:"ILO 1919, merkez Cenevre. Türkiye 1932'de üye oldu."},
+{d:2,t:"Bilgi",q:"Avrupa İş Sağlığı ve Güvenliği Ajansı (EU-OSHA) hangi yıl kurulmuştur ve merkezi neresidir?",
+o:["1994 – Bilbao, İspanya","1946 – Cenevre, İsviçre","1919 – Paris, Fransa","2004 – Brüksel, Belçika"],
+e:"EU-OSHA 1994, Bilbao. WHO ise 1946, Cenevre."},
+{d:2,t:"Bilgi",q:"Osmanlı döneminde esnafın sosyal güvenliği ve çalışma düzeni hangi kurumlar aracılığıyla sağlanmaya çalışılmıştır?",
+o:["Ahilik (Fütüvvetname), loncalar ve vakıflar","Sendikalar ve SGK","OSGB'ler","İş mahkemeleri"],
+e:"Ahilik teşkilatının kurallar bütünü Fütüvvetname'dir; loncalar ve vakıflar da bu işlevi üstlenmiştir."},
+{d:2,t:"Bilgi",q:"Çalışma koşulları, yatakhane, çalışma süresi ve ücret gibi sosyal hayatı düzenleyen ilk belgelerden biri kabul edilen 1869 tarihli düzenleme hangisidir?",
+o:["Maaddin Nizamnamesi","Dilaver Paşa Nizamnamesi","Polis Nizamnamesi","Mecelle"],
+e:"1869 Maaddin Nizamnamesi. Dilaver Paşa 1865, Polis Nizamnamesi 1820, Mecelle 1876."},
+{d:2,t:"Senaryo",q:"Maaddin Nizamnamesi'ne göre, bir maden kazası işverenin kötü yönetimi ve gerekli önlemleri almaması nedeniyle meydana gelmişse, işveren mahkemenin hükmettiği tazminata ek olarak ne öder?",
+o:["15–20 altın tutarında ek tazminat","Hiçbir ek ödeme yapmaz","İşçinin bir yıllık ücretini","Madeni devlete devreder"],
+e:"Kusur varsa ek 15–20 altın. Ayrıca havzadaki her işveren diplomalı hekim çalıştırmak ve eczane bulundurmak zorundaydı."},
+{d:2,t:"Yorum",q:"Maaddin Nizamnamesi'ndeki 'Havzada her işveren diplomalı bir hekim çalıştırmak ve eczane bulundurmak zorundadır' hükmü günümüzde hangi yükümlülüğün öncüsü sayılabilir?",
+o:["İşyeri hekimi görevlendirme yükümlülüğü","Çalışan temsilcisi seçimi","Tahliye planı hazırlama","İSG KATİP bildirimi"],
+e:"Bugün 6331'in 6. maddesi işverene işyeri hekimi görevlendirme yükümlülüğü getirir."},
+{d:2,t:"Bilgi",q:"Osmanlı'da ilk medeni kanun olarak kabul edilen Mecelle hangi yıl yürürlüğe girmiştir?",
+o:["1876","1869","1860","1921"],
+e:"1876 Mecelle."},
+{d:2,t:"Yorum",q:"Aşağıdaki düzenlemelerin kronolojik sırası hangisidir?\nI. 3008 sayılı İş Kanunu\nII. Maaddin Nizamnamesi\nIII. 1593 sayılı Umumi Hıfzıssıhha Kanunu\nIV. 151 sayılı Ereğli Havzai Fahmiyesi Kanunu",
+o:["II – IV – III – I","IV – II – III – I","II – III – IV – I","II – IV – I – III"],
+e:"1869 Maaddin → 1921 151 sayılı → 1930 1593 sayılı → 1936 3008 sayılı."},
+{d:2,t:"Bilgi",q:"İSG hükümlerinin ilk kez yer aldığı Türkiye'nin ilk İş Kanunu hangisidir?",
+o:["1936 tarihli 3008 sayılı İş Kanunu","1930 tarihli 1593 sayılı Kanun","2003 tarihli 4857 sayılı İş Kanunu","1921 tarihli 151 sayılı Kanun"],
+e:"3008 sayılı İş Kanunu, 1936."},
+{d:2,t:"Bilgi",q:"Cumhuriyetin ilk yıllarında, 1921'de çıkarılan ve maden işçilerinin haklarını düzenleyen kanun hangisidir?",
+o:["151 sayılı Ereğli Havzai Fahmiyesi Maden Amelesinin Hukukuna Müteallik Kanun","1593 sayılı Umumi Hıfzıssıhha Kanunu","3008 sayılı İş Kanunu","Dilaver Paşa Nizamnamesi"],
+e:"151 sayılı Kanun – 1921, Ereğli kömür havzası."},
+{d:2,t:"Bilgi",q:"Aşağıdakilerden hangisi 6331 sayılı Kanun'un temel yaklaşımlarından biri değildir?",
+o:["Kusur sonrası cezalandırma yaklaşımı","Önleyici yaklaşım (olmadan önle)","Güvenlik kültürü","Risk değerlendirmesi"],
+e:"6331'in üç temel yaklaşımı: önleyici yaklaşım, güvenlik kültürü, risk değerlendirmesi."},
+{d:2,t:"Bilgi",q:"6331 sayılı Kanun'un amaçları (Madde 1) arasında aşağıdakilerden hangisi yer almaz?",
+o:["İşverenlerin vergi yükünü azaltmak","Mevzuattaki dağınıklığın giderilmesi","Kapsamın genişletilmesi","İşveren ve çalışanların görev, yetki ve sorumluluklarını düzenlemek"],
+e:"Amaçlar: dağınıklığın giderilmesi, kapsamın genişletilmesi, bütüncül yapı, İSG'nin sağlanması ve iyileştirilmesi, tarafların yükümlülüklerinin düzenlenmesi."},
+{d:2,t:"Senaryo",q:"Aşağıdakilerden hangisi 6331 sayılı Kanun'un kapsamı DIŞINDADIR?",
+o:["Kendi nam ve hesabına tek başına çalışan bir serbest tamirci","Bir fabrikada staj yapan üniversite öğrencisi","Bir bakanlıkta çalışan memur","Tarım işletmesinde çalışan mevsimlik işçi"],
+e:"İstisnalar: TSK, emniyet, afet müdahale ekipleri, ev hizmetleri, kendi nam ve hesabına tek başına çalışanlar. Stajyer, memur ve tarım işçisi kapsamdadır; sayı sınırı da yoktur."},
+{d:2,t:"Bilgi",q:"6331 sayılı Kanun'un 3. maddesine göre, işveren adına hareket eden ve işin/işyerinin yönetiminde görev alan kişiler bu Kanun bakımından nasıl kabul edilir?",
+o:["İşveren sayılır","Çalışan sayılır","Çalışan temsilcisi sayılır","Destek elemanı sayılır"],
+e:"İşveren vekilleri 6331 uygulamasında işveren sayılır; sorumluluktan kaçamazlar."},
+{d:2,t:"Bilgi",q:"6331'e göre 'teknik eleman' tanımına giren unvanlar hangileridir?",
+o:["Teknik öğretmen, fizikçi, kimyager ve üniversitelerin İSG programı mezunları","Yalnızca makine mühendisleri","Hemşire ve ebeler","Avukat ve hâkimler"],
+e:"Teknik eleman: teknik öğretmen, fizikçi, kimyager + üniversitelerin İSG programı mezunları."},
+{d:2,t:"Senaryo",q:"Bir fabrikada muhasebe çalışanı olan Ayşe, asli görevinin yanında yangınla mücadele ve ilk yardım konularında özel olarak görevlendirilmiş ve eğitim almıştır. 6331'e göre Ayşe'nin bu rolü nedir?",
+o:["Destek elemanı","Çalışan temsilcisi","İş güvenliği uzmanı","İşveren vekili"],
+e:"Destek elemanı: asli görevi yanında önleme, koruma, tahliye, yangınla mücadele, ilk yardım vb. için özel görevlendirilen kişi. Çalışan temsilcisi ise çalışanları temsil eder."},
+{d:2,t:"Bilgi",q:"Kamu kurumları, OSB'ler ve TTK'ya göre faaliyet gösteren şirketler tarafından işyerlerine İSG hizmeti sunmak üzere kurulan ve Bakanlıkça yetkilendirilen birim hangisidir?",
+o:["Ortak Sağlık ve Güvenlik Birimi (OSGB)","İşyeri Sağlık ve Güvenlik Birimi","İSG Kurulu","Ulusal İSG Konseyi"],
+e:"OSGB dışarıdan hizmet sunar; İşyeri Sağlık ve Güvenlik Birimi ise işyerinin kendi içinde kurulur."},
+{d:2,t:"Bilgi",q:"6331'in 6. ve 7. maddeleri, kamu kurumları ile 50'den az çalışanı olan az tehlikeli işyerleri için hangi tarihte yürürlüğe girmiştir?",
+o:["31.12.2024","30.06.2012","01.01.2020","31.12.2030"],
+e:"Defalarca ertelenen tarih son kez ertelenmedi; 2025 itibarıyla bu işyerleri de yükümlü."},
+{d:2,t:"Bilgi",q:"Notlardaki sonuç bölümüne göre az tehlikeli sınıftaki işyerleri, çalışanlarına kaç yılda bir kaç saat İSG eğitimi vermekle yükümlüdür?",
+o:["3 yılda bir 8 saat","Her yıl 16 saat","5 yılda bir 4 saat","2 yılda bir 12 saat"],
+e:"Az tehlikeli: 3 yılda bir, 8 saat."},
+{d:2,t:"Senaryo",q:"Bir işveren, Bakanlıkça ilan edilen eğitimleri tamamlayarak İSG hizmetlerini kendisi yürütmek istiyor. 6. maddeye göre işveren hangi hizmeti kendisi yürütemez?",
+o:["İşe giriş ve periyodik muayeneler ile tetkikler","Risk değerlendirmesi çalışmaları","Çalışanların bilgilendirilmesi","Acil durum planı hazırlığı"],
+e:"İşveren eğitimini tamamlasa bile tıbbi muayene ve tetkikler hekimlik gerektirdiği için hariç tutulur."},
+{d:2,t:"Yorum",q:"Kanun'un 7. maddesindeki Bakanlık desteği konusunda aşağıdakilerden hangisi doğrudur?",
+o:["Kamu kurum ve kuruluşları Bakanlık desteğinden yararlanamaz","Kamu kurumları desteğin önceliklisidir","Tüm işyerleri koşulsuz destek alır","Destek yalnızca çok tehlikeli işyerlerine verilir"],
+e:"Cumhurbaşkanı karar verirse 10'dan az çalışanı olan az tehlikeli işyerleri de yararlanabilir; kamu kurumları ise yararlanamaz."},
+{d:2,t:"Senaryo",q:"Haftalık 45 saat çalışan bir işçiye, aynı hafta mesai dışında 4 saat İSG eğitimi veriliyor ve işveren eğitim ücretini işçinin maaşından kesmek istiyor. 6331'e göre doğru değerlendirme hangisidir?",
+o:["Eğitim maliyeti çalışana yansıtılamaz; haftalık süreyi aşan 4 saat fazla çalışma sayılır","İşveren ücreti kesebilir; eğitim çalışma süresinden sayılmaz","Eğitim isteğe bağlıdır; işçi katılmayabilir","Eğitim süresi yıllık izinden düşülür"],
+e:"Eğitimin maliyeti çalışana yansıtılamaz, süresi çalışma süresinden sayılır, haftalık süreyi aşarsa fazla çalışma olarak değerlendirilir."},
+{d:2,t:"Bilgi",q:"Aşağıdakilerden hangisi İSG eğitiminin özellikle verilmesi gereken durumlardan biri değildir?",
+o:["Çalışanın yıllık izne çıkması","İşe başlamadan önce","Çalışma yeri veya iş değişikliğinde","Yeni teknoloji uygulanması hâlinde"],
+e:"Eğitim zamanları: işe başlamadan önce, yer/iş değişikliği, ekipman değişikliği, yeni teknoloji."},
+{d:2,t:"Senaryo",q:"Bir çalışan, iskelenin çökmek üzere olduğunu fark ediyor ve ciddi ve yakın bir tehlikeyle karşı karşıya kaldığını düşünüyor. 6331'e göre hangi hakkı kullanabilir?",
+o:["Çalışmaktan kaçınma hakkı (13. madde)","İşin durdurulmasına doğrudan kendisi karar verme hakkı","İşvereni doğrudan mahkemeye verme zorunluluğu","İşyeri hekimini görevden alma hakkı"],
+e:"13. madde: ciddi ve yakın tehlike → çalışmaktan kaçınma hakkı. İşi durdurma kararı ise müfettişlere aittir (25. madde)."},
+{d:2,t:"Bilgi",q:"6331'de maddeler ve konuları eşleştirildiğinde hangisi YANLIŞTIR?",
+o:["12. madde – Risk değerlendirmesi","11. madde – Acil durum planları, yangınla mücadele ve ilk yardım","14. madde – İş kazası ve meslek hastalıklarının kayıt ve bildirimi","15. madde – Sağlık gözetimi"],
+e:"Risk değerlendirmesi 10. maddedir; 12. madde tahliye planıdır."},
+{d:2,t:"Hesaplama",q:"350 çalışanı bulunan bir işyerinde en az kaç çalışan temsilcisi görevlendirilmelidir?",
+o:["3","2","4","1"],
+e:"2–50: 1 | 51–100: 2 | 101–500: 3 | 501–1000: 4 | 1001–2000: 5 | 2001+: 6. 350 → 3."},
+{d:2,t:"Hesaplama",q:"1.200 çalışanı bulunan bir işyerinde kaç çalışan temsilcisi görevlendirilir ve birden fazla temsilci olduğunda baş temsilci nasıl belirlenir?",
+o:["5 temsilci; baş temsilci temsilciler arasında seçimle belirlenir","4 temsilci; baş temsilciyi işveren atar","6 temsilci; baş temsilciyi Bakanlık atar","5 temsilci; en kıdemli temsilci baş temsilci olur"],
+e:"1001–2000 arası → 5. Baş temsilci, çalışan temsilcileri arasındaki seçimle belirlenir."},
+{d:2,t:"Senaryo",q:"Bir işyerinde yetkili sendika bulunmaktadır ve işyeri sendika temsilcisi Mehmet, 1 yıllık kıdeme ve ilkokul mezuniyetine sahiptir. Mehmet çalışan temsilcisi olarak görev yapabilir mi?",
+o:["Evet; yetkili sendika temsilcisi çalışan temsilcisi olarak görev yaptığında nitelik şartları aranmaz","Hayır; en az 3 yıllık deneyimi yoktur","Hayır; en az ortaokul mezunu değildir","Ancak Bakanlık onayı ile görev yapabilir"],
+e:"Normalde şartlar: tam süreli daimi çalışan, en az 3 yıl deneyim, en az ortaokul. Ama yetkili sendika temsilcisi için bu nitelikler aranmaz."},
+{d:2,t:"Senaryo",q:"80 çalışanlı bir fabrikada 4 ay sürecek bir tadilat işi ile 45 çalışanlı bir ofiste süresiz işler yapılmaktadır. Hangisinde İSG kurulu oluşturulması ZORUNLUDUR?",
+o:["Hiçbirinde","Yalnızca fabrikada","Yalnızca ofiste","Her ikisinde"],
+e:"Kurul şartları birlikte aranır: 50 ve daha fazla çalışan VE 6 aydan fazla süren sürekli iş. Fabrika: 4 ay < 6 ay. Ofis: 45 < 50."},
+{d:2,t:"Senaryo",q:"8 ay sürecek bir işte asıl işverenin 30, alt işverenin 25 çalışanı vardır ve ikisi de tek başına kurul kurmakla yükümlü değildir. 6331'e göre ne yapılmalıdır?",
+o:["Koordinasyonu asıl işverence yapılmak üzere birlikte bir kurul oluşturulur","Hiçbir kurul kurulmaz","Yalnızca alt işveren kurul kurar","Her biri ayrı ayrı kurul kurar"],
+e:"Toplam çalışan 55 > 50 ve iş 6 aydan uzun → birlikte kurul; koordinasyon asıl işverende."},
+{d:2,t:"Senaryo",q:"Birçok firmanın bulunduğu bir iş hanında, bir işyerinin yanıcı madde depolaması diğer işyerlerini tehdit etmektedir. İSG koordinasyonu kimin sorumluluğundadır ve uyarıya uyulmazsa ne yapılır?",
+o:["Yönetim koordinasyonu sağlar; uymayan işvereni Bakanlığa bildirir","Her işveren kendi başına hareket eder","Belediye zabıtası koordine eder","Çalışan temsilcileri işyerini kapatır"],
+e:"23. madde: iş merkezleri, iş hanları, sanayi siteleri gibi yerlerde koordinasyon yönetim tarafından sağlanır; uymayanlar Bakanlığa bildirilir."},
+{d:2,t:"Bilgi",q:"25. maddeye göre işin durdurulmasına karar veren heyet kaç iş müfettişinden oluşur ve tespitten itibaren kaç gün içinde karar verebilir?",
+o:["3 müfettiş – 2 gün","5 müfettiş – 7 gün","2 müfettiş – 1 gün","3 müfettiş – 6 iş günü"],
+e:"3 müfettişlik heyet, 2 gün. Acil müdahale gerekiyorsa tespiti yapan müfettiş heyet kararına kadar işi durdurur."},
+{d:2,t:"Senaryo",q:"Bir şantiyede işin durdurulması kararı verilmiştir. İşveren bu karara 6 iş günü içinde iş mahkemesine itiraz etmiştir. Mahkeme karar verene kadar iş ne olur?",
+o:["Durdurma devam eder; itiraz kararın uygulanmasını etkilemez","İş derhal yeniden başlar","İş yarı kapasiteyle devam eder","Mülki amir kararı kendiliğinden iptal eder"],
+e:"İtiraz yürütmeyi durdurmaz. Mahkeme 6 iş günü içinde karar verir ve bu karar kesindir."},
+{d:2,t:"Senaryo",q:"İşin durdurulduğu bir fabrikada işveren, işsiz kalan çalışanlara bu süre için ücret ödememeye karar veriyor. 6331'e göre doğru olan hangisidir?",
+o:["İşveren ücretleri ödemek ya da ücreti düşürmeden başka bir iş vermek zorundadır","İşveren ücret ödemek zorunda değildir","Ücretleri SGK öder","Çalışanlar işsizlik maaşına başvurur"],
+e:"Durdurmanın bedelini çalışan değil, kusurlu işveren öder."},
+{d:2,t:"Bilgi",q:"İşyerinde durdurulan işlerde izinsiz çalışma yaptıran işveren veya işveren vekiline hangi ceza verilir?",
+o:["3 yıldan 5 yıla kadar hapis cezası","Yalnızca uyarı","1 aydan 6 aya kadar hapis","İdari para cezası ile sınırlı yaptırım"],
+e:"25/8: üç yıldan beş yıla kadar hapis."},
+{d:2,t:"Bilgi",q:"Ölümlü iş kazası meydana gelen bir maden işyerinde kusuru yargı kararıyla tespit edilen işveren için öngörülen yaptırım hangisidir?",
+o:["2 yıl süreyle kamu ihalelerine katılmaktan yasaklanma","Madenin kamulaştırılması","5 yıl ticaret yasağı","İşverenin vatandaşlıktan çıkarılması"],
+e:"4735 sayılı Kanun'un 26. maddesiyle birlikte 2 yıl kamu ihalesi yasağı; Kamu İhale Kurumu sitesinde ilan edilir."},
+{d:2,t:"Senaryo",q:"28. maddeye göre aşağıdaki çalışanlardan hangisi için alkollü içki kullanma yasağı UYGULANMAZ?",
+o:["Bir şarap fabrikasında üretilen ürünü denetlemekle görevlendirilen tadımcı","Bir inşaatta vinç operatörü","Bir hastanede hemşire","Bir fabrikada forklift sürücüsü"],
+e:"İstisnalar: alkollü içki yapılan yerlerde ürünü denetleyenler, işin gereği içmek zorunda olanlar, müşteriyle içmek zorunda olanlar."},
+{d:2,t:"Senaryo",q:"Gürültülü bir pres atölyesinde işveren iki seçenek değerlendiriyor: (1) presleri ses yalıtımlı kabinlere almak, (2) tüm çalışanlara kulak tıkacı dağıtmak. 6331'deki risklerden korunma ilkelerine göre öncelik hangisinde olmalıdır?",
+o:["Kabinlere almak; risklerle kaynağında mücadele edilmeli ve toplu korunmaya öncelik verilmelidir","Kulak tıkacı; daha ucuz olduğu için","İkisi eşdeğerdir","Hiçbiri; gürültü kaçınılmazdır"],
+e:"İki ilke birden: 'risklerle kaynağında mücadele' ve 'toplu korunma tedbirlerine kişisel korunmaya göre öncelik'. KKD son çaredir."},
+{d:2,t:"Senaryo",q:"Bir mobilya atölyesinde solvent bazlı boya yerine su bazlı boya kullanılmaya başlanmıştır. Bu uygulama risklerden korunma ilkelerinden hangisine örnektir?",
+o:["Tehlikeli olanı tehlikesiz veya daha az tehlikeli olanla değiştirmek","Çalışanlara uygun talimatlar vermek","Kaçınılması mümkün olmayan riskleri analiz etmek","Teknik gelişmelere uyum sağlamak"],
+e:"İkame (substitution): tehlikeyi daha az tehlikeli bir alternatifle değiştirmek."},
+{d:2,t:"Bilgi",q:"Risk değerlendirmesi yapılırken özel politika gerektiren gruplar arasında notlarda hangisi sayılmamıştır?",
+o:["Yönetici kadrosundaki çalışanlar","Gebe veya emziren çalışanlar","Genç ve yaşlı çalışanlar","Engelli çalışanlar"],
+e:"Özel politika grupları: genç, yaşlı, engelli, gebe veya emziren çalışanlar ve kadın çalışanların durumu."},
+{d:2,t:"Senaryo",q:"Bir iş güvenliği uzmanı, işyerinde yangın ve patlama riski taşıyan bir eksikliği tespit edip işverene yazılı bildirmiş, ancak işveren önlem almamıştır. Uzman bu durumu yetkili birimlere bildirmezse ne olur?",
+o:["Belgesi 3 ay, tekrarında 6 ay süreyle askıya alınır","Hiçbir yaptırım uygulanmaz","Belgesi süresiz iptal edilir","Uzmana hapis cezası verilir"],
+e:"Bildirim yapmayan uzman/hekim: ilk sefer 3 ay, tekrarında 6 ay askı. Kötü niyetle gerçek dışı bildirim yapanın belgesi de 6 ay askıya alınır."},
+{d:2,t:"Senaryo",q:"Bakanlığa bildirim yapan bir işyeri hekiminin iş sözleşmesi bu bildirim nedeniyle işveren tarafından feshedilirse ne olur?",
+o:["İşveren, bir yıllık sözleşme ücretinden az olmamak üzere tazminat öder","Hekim yalnızca kıdem tazminatı alır","Fesih geçerlidir, yaptırım yoktur","Hekimin belgesi askıya alınır"],
+e:"Bildirim nedeniyle sözleşme feshedilemez, hak kaybına uğratılamaz; aksi halde en az 1 yıllık ücret tutarında tazminat."},
+{d:2,t:"Yorum",q:"İSG profesyonellerinin bildirim yapmadığında belgesinin askıya alınması, bildirim yaptığında ise işten çıkarılmaya karşı korunması birlikte düşünüldüğünde, kanun koyucunun amacı nedir?",
+o:["Uzman ve hekimin mesleki bağımsızlığını güvenceye alıp hayati tehlikelerin gizlenmesini önlemek","İşverenle uzman arasında çatışma çıkarmak","Bildirim sayısını azaltmak","Uzmanları işverenin emrine tabi kılmak"],
+e:"Bir yanda sopa (askı), diğer yanda kalkan (fesih koruması). Hedef: profesyonelin işverene 'hayır' diyebilmesi ve tehlikelerin örtülmemesi."},
+{d:2,t:"Bilgi",q:"İş güvenliği uzmanı belge sınıfları ile işyeri tehlike sınıfları eşleştirmesinde hangisi doğrudur?",
+o:["Çok tehlikeli – (A) sınıfı; tehlikeli – en az (B); az tehlikeli – en az (C)","Çok tehlikeli – (C) sınıfı; az tehlikeli – (A)","Her tehlike sınıfı için (B) yeterlidir","Tehlikeli – (A); çok tehlikeli – (B)"],
+e:"Tehlike arttıkça belge seviyesi yükselir: A en yüksek."},
+{d:2,t:"Senaryo",q:"(B) sınıfı belgeye sahip bir mühendis (A) sınıfına geçmek istiyor. Hangi koşulu sağlaması gerekir?",
+o:["(B) sınıfı belgeyle en az 4 yıl fiilen görev yapıp (A) eğitimine katılarak sınavda başarılı olmak","(B) sınıfıyla 1 yıl çalışmak","Yalnızca yüksek lisans yapmak","Doğrudan başvuru yeterlidir"],
+e:"B → A: 4 yıl fiilen görev + A eğitimi + sınav. C → B: 3 yıl fiilen görev + B eğitimi + sınav."},
+{d:2,t:"Hesaplama",q:"Tehlikeli sınıfta yer alan ve 300 çalışanı olan bir işyerinde iş güvenliği uzmanının aylık asgari çalışma süresi ne kadardır?",
+o:["6.000 dakika (100 saat)","3.000 dakika (50 saat)","12.000 dakika (200 saat)","1.500 dakika (25 saat)"],
+e:"Tehlikeli sınıf: çalışan başına ayda 20 dk. 300 × 20 = 6.000 dk = 100 saat."},
+{d:2,t:"Hesaplama",q:"Çok tehlikeli sınıfta yer alan ve 200 çalışanı bulunan bir işyerinde işyeri hekiminin aylık asgari çalışma süresi ne kadardır?",
+o:["3.000 dakika (50 saat)","8.000 dakika","2.000 dakika","1.000 dakika"],
+e:"Hekim süreleri: az 5, tehlikeli 10, çok tehlikeli 15 dk/çalışan/ay. 200 × 15 = 3.000 dk = 50 saat. (Uzman olsaydı 40 dk ile 8.000 dk olurdu; tuzak şık.)"},
+{d:2,t:"Hesaplama",q:"Çok tehlikeli sınıftaki 500 çalışanlı bir maden işletmesinde kaç tam gün iş güvenliği uzmanı görevlendirilmelidir?",
+o:["2","1","4","5"],
+e:"Çok tehlikeli sınıfta her 250 çalışan için 1 tam gün uzman: 500 / 250 = 2."},
+{d:2,t:"Hesaplama",q:"Az tehlikeli, tehlikeli ve çok tehlikeli sınıflarda bir tam gün işyeri hekimi gerektiren çalışan sayıları sırasıyla hangisidir?",
+o:["2000 – 1000 – 750","1000 – 500 – 250","2000 – 1000 – 500","1500 – 750 – 250"],
+e:"Hekim: 2000 / 1000 / 750. Uzman: 1000 / 500 / 250. İkisi sık karıştırılır."},
+{d:2,t:"Yorum",q:"İşyeri hekimi için asgari çalışma sürelerinin (5/10/15 dk), iş güvenliği uzmanı sürelerinden (10/20/40 dk) daha düşük olması en mantıklı nasıl açıklanabilir?",
+o:["Uzmanın görevi tüm çalışma ortamının sürekli gözetimini kapsarken hekimin işi daha çok periyodik muayene ve sağlık gözetimine dayanır","Hekimlerin görevi daha önemsizdir","Kanun koyucunun hatasıdır","Hekimler daha hızlı çalışır"],
+e:"Bu bir yorum sorusu: Uzman ekipman, ölçüm, bakım, tatbikat gibi ortamı sürekli izler; hekimin yükü ise belirli aralıklarla yoğunlaşan muayene ve kayıtlardır."},
+{d:2,t:"Senaryo",q:"Çok tehlikeli sınıftaki bir işyerinde çalışan 17 yaşındaki bir çırağın periyodik sağlık muayenesi en geç hangi aralıkla tekrarlanmalıdır?",
+o:["6 ayda bir","Yılda bir","3 yılda bir","5 yılda bir"],
+e:"Az tehlikeli 5 yıl, tehlikeli 3 yıl, çok tehlikeli 1 yıl; ama çocuk, genç ve gebe çalışanlar için işyeri sınıfından bağımsız olarak en geç 6 ay. Daha sık olan uygulanır."},
+{d:2,t:"Bilgi",q:"Tam süreli iş güvenliği uzmanlarının mesleki gelişim amaçlı eğitim, seminer ve panellerde geçirdiği sürelerden yılda ne kadarı çalışma süresinden sayılır?",
+o:["Toplam 5 iş günü","Toplam 10 iş günü","Toplam 2 iş günü","Sınırsız"],
+e:"Yılda 5 iş günü; bu süreler için ücretten kesinti yapılamaz."},
+{d:2,t:"Senaryo",q:"Bir iş güvenliği uzmanı, işverene yazılı bildirdiği hayati tehlikeye (göçme riski) makul süre içinde önlem alınmazsa ne yapmakla yükümlüdür?",
+o:["İşyerinin bağlı olduğu Çalışma ve İş Kurumu il müdürlüğüne yazılı bildirmek","Durumu sosyal medyada paylaşmak","İşyerini kendisi kapatmak","Hiçbir şey yapmamak; sorumluluk işverendedir"],
+e:"Uzman işi kendisi durduramaz; işverene başvurur ve önlem alınmazsa resmi kanaldan yazılı bildirir. Tespit ve tavsiyelerini onaylı deftere de yazar."},
+{d:2,t:"Senaryo",q:"Tehlikeli sınıftaki 600 çalışanlı bir işyerinde işveren, 1 tam gün uzmanın yanında kalan süreyi iki ayrı uzmana yarı yarıya bölmek istiyor. Vardiyalı çalışma yoktur. Bu uygun mudur?",
+o:["Hayır; hesaplanan çalışma süreleri bölünerek birden fazla uzmana verilemez (vardiyalı çalışma hariç)","Evet; süreler istenildiği gibi bölünebilir","Evet; yalnızca OSGB onayı yeterlidir","Hayır; 600 çalışanlı işyerine uzman gerekmez"],
+e:"Kural: süreler bölünemez. İstisna: vardiyalı çalışmada vardiyalara uygun görevlendirme."},
+{d:2,t:"Bilgi",q:"İş güvenliği uzmanı ve işyeri hekiminin, Bakanlıkça belirlenen İSG bilgilerini bildirdiği elektronik sistemin adı nedir?",
+o:["İSG KATİP","e-Devlet SGK","MERSİS","KEP"],
+e:"İSG KATİP üzerinden Genel Müdürlüğe bildirim yapılır."},
+{d:2,t:"Senaryo",q:"Sağlık sorunları nedeniyle tekrar tekrar işten uzaklaşan bir çalışan işe döndüğünde muayene talep ediyor. İşyeri hekimi eski görevinin sakıncalı olduğunu tespit ederse ne yapar?",
+o:["Sağlık durumuna uygun bir görev verilmesini tavsiye ederek işverenin onayına sunar","Çalışanı doğrudan işten çıkarır","Çalışanı eski görevine iade eder","Hiçbir işlem yapmaz"],
+e:"Hekim karar vermez, tavsiye eder; görevlendirme işverenin onayıyla olur. Bu, 'uygun işe yerleştirme' ilkesinin uygulamasıdır."},
+{d:2,t:"Bilgi",q:"İSG ile ilgili politika ve stratejilerin belirlenmesi için tavsiyelerde bulunmak üzere 6331'in 21. maddesiyle kurulan yapı hangisidir?",
+o:["Ulusal İSG Konseyi","İSG Kurulu","OSGB","İşyeri Sağlık ve Güvenlik Birimi"],
+e:"Ulusal İSG Konseyi ülke genelinde politika önerir; İSG Kurulu ise işyeri düzeyindedir."},
+{d:2,t:"Senaryo",q:"Çok tehlikeli sınıftaki bir yapı işinde hiç risk değerlendirmesi yapılmadığı tespit edilmiştir; henüz somut bir kaza yoktur. 25. maddeye göre ne olur?",
+o:["İş durdurulur","Yalnızca uyarı verilir","Herhangi bir kaza olmadığı için işlem yapılmaz","İşverene 1 yıl süre verilir"],
+e:"Çok tehlikeli maden, metal, yapı işleri ve tehlikeli kimyasalların olduğu işyerlerinde risk değerlendirmesinin yapılmamış olması tek başına durdurma sebebidir."}
+];
+const L="ABCD";
+let st={ans:{},order:{}}; // ans[i]=chosen original index; order[i]=shuffled indices
+try{const s=JSON.parse(localStorage.getItem("isg-quiz")||"null");if(s&&s.ans)st=s}catch(e){}
+const save=()=>{try{localStorage.setItem("isg-quiz",JSON.stringify(st))}catch(e){}};
+Q.forEach((q,i)=>{if(!st.order[i]){const o=[0,1,2,3];for(let k=3;k>0;k--){const j=Math.floor(Math.random()*(k+1));[o[k],o[j]]=[o[j],o[k]]}st.order[i]=o}});
+save();
+let F={d:"all",t:"all",m:"all"},list=[],pos=0;
+const types=["Bilgi","Yorum","Senaryo","Hesaplama"];
+function buildList(){
+  list=Q.map((q,i)=>i).filter(i=>{const q=Q[i];
+    if(F.d!=="all"&&q.d!=F.d)return false;
+    if(F.t!=="all"&&q.t!==F.t)return false;
+    if(F.m==="wrong")return st.ans[i]!==undefined&&st.ans[i]!==0;
+    if(F.m==="open")return st.ans[i]===undefined;
+    return true});
+  if(pos>=list.length)pos=Math.max(0,list.length-1);
+}
+function chip(label,on,fn,cls=""){const b=document.createElement("button");b.className="chip"+(on?" on":"")+(cls?" "+cls:"");b.textContent=label;b.onclick=fn;return b}
+function sep(){const s=document.createElement("span");s.className="sep";return s}
+function renderFilters(){
+  const f=document.getElementById("filters");f.innerHTML="";
+  const cnt=d=>Q.filter(q=>d==="all"||q.d==d).length;
+  [["all","Tümü ("+Q.length+")"],[1,"Ders 1 ("+cnt(1)+")"],[2,"Ders 2 ("+cnt(2)+")"]].forEach(([v,l])=>f.append(chip(l,F.d==v,()=>{F.d=v;pos=0;go()})));
+  f.append(sep());
+  f.append(chip("Her tür",F.t==="all",()=>{F.t="all";pos=0;go()}));
+  types.forEach(t=>f.append(chip(t,F.t===t,()=>{F.t=t;pos=0;go()})));
+  f.append(sep());
+  const wrongN=Object.keys(st.ans).filter(k=>st.ans[k]!==0).length;
+  f.append(chip("Çözülmemiş",F.m==="open",()=>{F.m=F.m==="open"?"all":"open";pos=0;go()}));
+  f.append(chip("Yanlışlarım ("+wrongN+")",F.m==="wrong",()=>{F.m=F.m==="wrong"?"all":"wrong";pos=0;go()},"act"));
+  f.append(chip("Sıfırla",false,(ev)=>{
+    if(f.dataset.c!=="1"){f.dataset.c="1";ev.target.textContent="Emin misin? Tekrar bas";setTimeout(()=>{f.dataset.c="";renderFilters()},2500);return}
+    st={ans:{},order:{}};Q.forEach((q,i)=>{const o=[0,1,2,3];for(let k=3;k>0;k--){const j=Math.floor(Math.random()*(k+1));[o[k],o[j]]=[o[j],o[k]]}st.order[i]=o});save();F={d:"all",t:"all",m:"all"};pos=0;f.dataset.c="";go()}));
+}
+function renderScore(){
+  const ks=Object.keys(st.ans),ok=ks.filter(k=>st.ans[k]===0).length,bad=ks.length-ok;
+  sOk.textContent=ok;sBad.textContent=bad;sPct.textContent=ks.length?Math.round(ok*100/ks.length)+"%":"–";
+  prog.style.width=(ks.length*100/Q.length)+"%";
+}
+function renderCard(){
+  const c=document.getElementById("card");
+  if(!list.length){c.innerHTML='<div class="empty">'+(F.m==="wrong"?"Bu filtrede yanlışın yok 👏":"Bu filtrede soru kalmadı.")+'</div>';return}
+  const i=list[pos],q=Q[i],a=st.ans[i],done=a!==undefined;
+  let h='<div class="meta"><span class="tag">Ders '+q.d+'</span><span class="tag t-'+q.t+'">'+q.t+'</span><span class="qn">'+(pos+1)+' / '+list.length+' · #'+(i+1)+'</span></div>';
+  h+='<p class="q"></p>';
+  st.order[i].forEach((oi,k)=>{let cls="";if(done){if(oi===0)cls="ok";else if(oi===a)cls="bad"}
+    h+='<button class="opt '+cls+'" data-o="'+oi+'"'+(done?" disabled":"")+'><span class="l">'+L[k]+'</span><span class="t"></span></button>'});
+  h+='<div class="exp'+(done?" show":"")+'"><b>'+(done?(a===0?"✓ Doğru":"✗ Yanlış — doğru cevap "+L[st.order[i].indexOf(0)]):"")+'</b><span class="e"></span></div>';
+  h+='<div class="nav"><button class="btn ghost" id="prev"'+(pos===0?" disabled":"")+'>← Önceki</button><button class="btn" id="next"'+(pos>=list.length-1?" disabled":"")+'>Sonraki →</button></div>';
+  c.innerHTML=h;
+  c.querySelector(".q").textContent=q.q;
+  c.querySelectorAll(".opt").forEach(b=>{b.querySelector(".t").textContent=q.o[+b.dataset.o];b.onclick=()=>answer(i,+b.dataset.o)});
+  c.querySelector(".e").textContent=q.e;
+  prev.onclick=()=>{pos--;go()};next.onclick=()=>{pos++;go()};
+}
+function renderGrid(){
+  const g=document.getElementById("grid");g.innerHTML="";
+  list.forEach((i,k)=>{const b=document.createElement("button");b.textContent=i+1;
+    const a=st.ans[i];if(a!==undefined)b.className=a===0?"ok":"bad";if(k===pos)b.classList.add("cur");
+    b.onclick=()=>{pos=k;go()};g.append(b)});
+}
+function answer(i,o){if(st.ans[i]!==undefined)return;st.ans[i]=o;save();renderScore();renderFilters();renderCard();renderGrid()}
+function go(){buildList();renderFilters();renderScore();renderCard();renderGrid();window.scrollTo({top:0,behavior:"smooth"})}
+document.addEventListener("keydown",e=>{
+  if(!list.length||e.ctrlKey||e.metaKey||e.altKey)return;const i=list[pos];
+  const k=e.key.toUpperCase();let idx="1234".indexOf(k);if(idx<0)idx=L.indexOf(k);
+  if(idx>=0&&e.key.length===1){answer(i,st.order[i][idx]);return}
+  if(e.key==="ArrowRight"&&pos<list.length-1){pos++;go()}
+  if(e.key==="ArrowLeft"&&pos>0){pos--;go()}
+});
+go();
+</script>
+</body>
+</html>
